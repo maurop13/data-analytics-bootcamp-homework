@@ -1,7 +1,7 @@
 // Create a map object
 var myMap = L.map("map", {
-  center: [13, 74.2973],
-  zoom: 3
+  center: [5, -75],
+  zoom: 5
 });
 
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -66,4 +66,22 @@ function createMap(earthquakeData) {
       "</h3><hr><p>" + (feature.properties.type) + "</p>" + (feature.properties.mag))
   }
   }).addTo(myMap);
-  };
+
+    var legend = L.control({
+      position:"bottomright"
+    });
+
+    Legend.onAdd = function(){
+      var div = L.DomUtil.create("div","info legend");
+      var grades = [0,1,2,3,4,5];
+      var colors =["Teal","LimeGreen","PaleGreen","Gold","Tomato","Red"];
+      for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+      }
+      return div;
+    };
+    legend.addTo(myMap);
+  }
+
